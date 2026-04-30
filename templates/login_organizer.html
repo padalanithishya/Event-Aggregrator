@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Organizer Login{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+
+    <div class="auth-card">
+        <h2 class="auth-title">Organizer Login</h2>
+        <p class="auth-desc">Use the security code provided after approval.</p>
+
+        <form method="POST">
+            {{ form.hidden_tag() }}
+
+            <label class="auth-label">Email</label>
+            {{ form.email(class="auth-input") }}
+
+            <label class="auth-label">Password</label>
+            {{ form.password(class="auth-input") }}
+
+            <label class="auth-label">Security Code</label>
+            {{ form.secret_code(class="auth-input") }}
+
+            <button class="auth-btn">Login</button>
+        </form>
+
+        <p class="auth-footer">
+            New organizer? <a href="{{ url_for('register_organizer') }}">Register here</a>
+        </p>
+    </div>
+
+</div>
+
+<style>
+/* SAME STYLES AS ADMIN LOGIN */
+.auth-wrapper { display: flex; justify-content: center; padding: 60px 0; }
+.auth-card { width: 420px; padding: 30px; border-radius: 20px;
+    background: linear-gradient(135deg, #1b1724,#0f1720);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 0 22px rgba(57,255,218,0.18); }
+.auth-title { text-align:center;font-size:2rem;font-weight:800;color:var(--accent-teal); }
+.auth-desc { text-align:center;margin-bottom:20px;color:var(--text-secondary); }
+.auth-label { font-weight:700;color:var(--accent-purple);margin-top:12px; }
+.auth-input { width:100%;padding:12px;border-radius:12px;margin-top:6px;
+    background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
+    color:#fff;transition:.25s; }
+.auth-input:focus { border-color:var(--accent-purple);box-shadow:0 0 12px rgba(138,91,255,.35); }
+.auth-btn { margin-top:22px;width:100%;padding:12px;background:var(--gradient-primary);
+    border:none;border-radius:12px;font-weight:800;color:#04111a;cursor:pointer; }
+.auth-btn:hover { transform:translateY(-3px);filter:brightness(1.1); }
+.auth-footer { text-align:center;margin-top:15px; }
+.auth-footer a { color:var(--accent-teal);font-weight:700; }
+</style>
+
+{% endblock %}

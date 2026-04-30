@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% block title %}Create Event | Event Aggregator{% endblock %}
+
+{% block content %}
+
+<div class="create-container">
+    <div class="create-card">
+
+        <h2 class="create-title">Create New Event</h2>
+
+        <form method="POST" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+
+            <div class="form-group">
+                <label>Event Title</label>
+                {{ form.title(class="input") }}
+            </div>
+
+            <div class="form-group">
+                <label>Description</label>
+                {{ form.description(class="input", rows="3") }}
+            </div>
+
+            <div class="form-group">
+                <label>College Name</label>
+                {{ form.college_name(class="input") }}
+            </div>
+
+            <div class="row-2">
+                <div class="form-group">
+                    <label>Event Type</label>
+                    {{ form.event_type(class="input") }}
+                </div>
+
+                <div class="form-group">
+                    <label>Mode</label>
+                    {{ form.mode(class="input") }}
+                </div>
+            </div>
+
+            <div class="row-2">
+                <div class="form-group">
+                    <label>Date</label>
+                    {{ form.date(class="input") }}
+                </div>
+
+                <div class="form-group">
+                    <label>Time</label>
+                    {{ form.time(class="input") }}
+                </div>
+            </div>
+
+            <div class="row-2">
+                <div class="form-group">
+                    <label>Venue</label>
+                    {{ form.venue(class="input") }}
+                </div>
+
+                <div class="form-group">
+                    <label>Registration Fee</label>
+                    {{ form.registration_fee(class="input") }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Upload Event Image</label>
+                {{ form.image(class="input") }}
+            </div>
+
+            <div class="form-group">
+                <label>Upload Notice Letter</label>
+                {{ form.notice_letter(class="input") }}
+            </div>
+
+            <div class="submit-box">
+                <button class="btn-primary">Create Event</button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+<style>
+
+/* MAIN CONTAINER */
+.create-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+/* CARD */
+.create-card {
+    background: linear-gradient(135deg, #1b1724, #0f1720);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 20px;
+    padding: 35px;
+    box-shadow: 0 0 22px rgba(57,255,218,0.15);
+}
+
+.create-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent-teal);
+    margin-bottom: 25px;
+}
+
+/* INPUT STYLING */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: 700;
+    color: var(--accent-purple);
+    display: block;
+    margin-bottom: 6px;
+}
+
+.input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    color: var(--text-primary);
+    outline: none;
+    transition: 0.3s;
+}
+
+.input:focus {
+    border-color: var(--accent-teal);
+    box-shadow: 0 0 12px rgba(57,255,218,0.22);
+}
+
+.row-2 {
+    display: flex;
+    gap: 20px;
+}
+
+/* BUTTON */
+.submit-box {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.btn-primary {
+    padding: 12px 35px;
+    border-radius: 12px;
+    border: none;
+    font-size: 1.1rem;
+    background: var(--gradient-primary);
+    color: #04111a;
+    cursor: pointer;
+    font-weight: 700;
+    box-shadow: var(--glow);
+    transition: 0.25s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.1);
+}
+
+</style>
+
+{% endblock %}

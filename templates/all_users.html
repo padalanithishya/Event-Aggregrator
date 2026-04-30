@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% block title %}All Users | Admin{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+
+    <h2 class="page-title text-center mb-4">👥 All Registered Users</h2>
+
+    <div class="table-responsive">
+        <table class="table custom-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>College</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ user.full_name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.college_name }}</td>
+                    <td>
+                        <span class="role-badge role-{{ user.role }}">
+                            {{ user.role | title }}
+                        </span>
+                    </td>
+                    <td>
+                        <form action="{{ url_for('delete_user', id=user.id) }}" method="POST"
+                              onsubmit="return confirm('Are you sure you want to delete this user?');">
+                            <button class="btn delete-btn btn-sm">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+
+</div>
+
+<style>
+
+/* Page Title */
+.page-title {
+    color: #39ffda;
+    text-shadow: 0 0 6px #39ffda, 0 0 12px rgba(57,255,218,0.7);
+    font-weight: 700;
+}
+
+/* Table Styling */
+.custom-table {
+    border-radius: 14px;
+    overflow: hidden;
+    background: linear-gradient(90deg, #3f353f, #345e63);
+    box-shadow: 0 0 12px rgba(57,255,218,0.2);
+}
+
+
+.custom-table thead tr {
+    background: linear-gradient(90deg, #233238, #2f4750);
+}
+
+.custom-table th {
+    color: #11343e;  /* neon cyan text */
+    font-weight: 700;
+    padding: 16px;
+    border-bottom: 2px solid rgba(57,255,218,0.35);
+    text-shadow: 0 0 6px rgba(123,226,255,0.8);
+    font-size: 1rem;
+    text-align: center;
+}
+
+
+.custom-table td {
+    padding: 14px;
+    color: #e0f5ff;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    background: rgba(0,0,0,0.12);
+    text-align: center;
+}
+
+.custom-table tr:hover td {
+    background: rgba(57,255,218,0.12);
+    transition: 0.25s ease;
+}
+
+/* Role Badges */
+.role-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: white;
+    text-shadow: 0 0 4px rgba(0,0,0,0.4);
+}
+
+.role-admin {
+    background: #ff4f4f;
+    box-shadow: 0 0 8px rgba(255,99,99,0.4);
+}
+
+.role-organizer {
+    background: #7d5bff;
+    box-shadow: 0 0 8px rgba(125,91,255,0.4);
+}
+
+.role-student {
+    background: #13bae0;
+    box-shadow: 0 0 8px rgba(19,186,224,0.4);
+}
+
+/* Delete Button */
+.delete-btn {
+    background: #ff4747;
+    border: none;
+    padding: 6px 14px;
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.25s ease;
+    box-shadow: 0 0 8px rgba(255,71,71,0.4);
+}
+
+.delete-btn:hover {
+    background: #cc0000;
+    transform: scale(1.05);
+    box-shadow: 0 0 12px rgba(255,71,71,0.7);
+}
+
+</style>
+
+{% endblock %}

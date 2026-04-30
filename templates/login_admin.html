@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block title %}Admin Login{% endblock %}
+{% block content %}
+
+<div class="auth-wrapper">
+    <div class="auth-card">
+
+        <h2 class="auth-title">Admin Login</h2>
+        <p class="auth-desc">Secure access — enter your admin credentials.</p>
+
+        <form method="POST" action="/login/admin">
+
+            <label class="auth-label">Admin Email</label>
+            <input type="email" name="email" class="auth-input" placeholder="Enter email" required>
+
+            <label class="auth-label">Password</label>
+            <input type="password" name="password" class="auth-input" placeholder="Enter password" required>
+
+            <label class="auth-label">Security Code</label>
+            <input type="text" name="secret_code" class="auth-input" placeholder="Enter admin code" required>
+
+            <button class="auth-btn">Login</button>
+        </form>
+
+        <p class="auth-footer">
+            <a href="{{ url_for('login') }}">← Back to Login</a>
+        </p>
+
+    </div>
+</div>
+
+<style>
+/* WRAPPER */
+.auth-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 60px 0;
+}
+
+/* CARD */
+.auth-card {
+    width: 420px;
+    padding: 30px;
+    border-radius: 20px;
+
+    background: linear-gradient(135deg, #1b1724, #0f1720);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 0 22px rgba(57,255,218,0.18);
+}
+
+/* TITLES */
+.auth-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent-teal);
+    margin-bottom: 6px;
+}
+
+.auth-desc {
+    text-align: center;
+    margin-bottom: 22px;
+    color: var(--text-secondary);
+}
+
+/* LABEL */
+.auth-label {
+    font-weight: 700;
+    color: var(--accent-purple);
+    margin-top: 14px;
+    display: block;
+}
+
+/* INPUT */
+.auth-input {
+    width: 100%;
+    padding: 12px 15px;
+    margin-top: 6px;
+
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.04);
+    color: var(--text-primary);
+
+    transition: .25s;
+}
+
+.auth-input:focus {
+    border-color: var(--accent-purple);
+    box-shadow: 0 0 12px rgba(138,91,255,0.35);
+}
+
+/* BUTTON */
+.auth-btn {
+    margin-top: 25px;
+    width: 100%;
+    padding: 12px;
+
+    background: var(--gradient-primary);
+    color: #04111a;
+
+    border: none;
+    border-radius: 12px;
+    font-weight: 800;
+
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.auth-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+/* FOOTER LINK */
+.auth-footer {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.auth-footer a {
+    color: var(--accent-teal);
+    font-weight: 600;
+}
+</style>
+{% endblock %}

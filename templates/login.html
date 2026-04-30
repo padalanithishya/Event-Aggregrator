@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+/* --- Your Existing Card Styles (unchanged) --- */
+
+.main-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    gap: 40px;
+    padding-top: 90px;
+    padding-left: 100px;
+}
+
+.spline-box {
+    width: 400px;
+  height: 400px;
+  min-height: 420px;
+  border-radius: 24px;
+  overflow: hidden;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+ 
+  background: #0d1117
+    
+}
+
+.spline-box iframe {
+  width: 500px !important;
+  height: 500px !important;
+  display: block; 
+}
+
+.main-card {
+    max-width: 480px;
+    padding: 35px;
+    border-radius: 18px;
+    background: linear-gradient(90deg, #3f353f, #345e63);
+    border-bottom: 2px solid #fff;
+    box-shadow: 0 0 10px #0ff;
+}
+
+/* Your card styling remains same */
+.title {
+    font-size: 28px;
+    text-align: center;
+    font-weight: 700;
+    color: white;
+    text-shadow:0 0 1px #ffffff,0 0 1px #fff,0 0 1px #0ff;
+}
+
+.sub {
+    text-align: center;
+    font-size: 15px;
+    margin-bottom: 20px;
+    color: white;
+    text-shadow:0 0 1px #ffffff,0 0 1px #fff,0 0 1px #0ff;
+}
+
+.tab-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 12px;
+    background: #060607;
+    text-align: center;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.tab-btn.active {
+    background:linear-gradient(90deg,#6a5cff,#7be2ff);
+    color: rgb(205, 214, 217);
+    box-shadow: 0 4px 15px rgb(11, 192, 243);
+}
+
+.hidden { display: none; }
+
+.select-field {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 10px;
+    border: 1px solid #bbb;
+    background: black;
+    font-size: 16px;
+    color: white;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.btn-primary {
+    background: linear-gradient(90deg,#6a5cff,#7be2ff);;
+    color: white;
+    box-shadow: 0 4px 15px rgba(199, 102, 234, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Responsive for mobile */
+@media(max-width: 900px) {
+    .main-wrapper {
+        flex-direction: column;
+        height: auto;
+        padding-top: 100px;
+    }
+    .spline-box {
+        width: 100%;
+        height: 350px;
+    }
+}
+</style>
+
+<!-- MAIN WRAPPER WITH CARD + ROBOT -->
+<div class="main-wrapper">
+
+    <!-- Left: Login Card -->
+    <div class="main-card">
+
+        <div class="title">Welcome</div>
+        <div class="sub">Login or Sign Up to continue</div>
+
+        <div class="tab-buttons">
+            <div class="tab-btn active" id="loginTab">Login</div>
+            <div class="tab-btn" id="signupTab">Signup</div>
+        </div>
+
+        <form id="loginSection" method="POST" action="/login">
+            <label><b>Login as</b></label>
+            <select name="role" class="select-field" required>
+                <option value="" disabled selected>Select login type</option>
+                <option value="student">Student</option>
+                <option value="organizer">Organizer</option>
+                <option value="admin">Admin</option>
+            </select>
+            <button class="btn btn-primary">Continue</button>
+        </form>
+
+        <form id="signupSection" class="hidden" method="POST" action="/signup_router">
+            <label><b>Signup as</b></label>
+            <select name="signup_role" class="select-field" required>
+                <option value="" disabled selected>Select signup type</option>
+                <option value="student">Student</option>
+                <option value="organizer">Organizer</option>
+            </select>
+
+            <button class="btn btn-primary">Continue</button>
+        </form>
+    </div>
+
+    <!-- Right: Spline Robot Embed -->
+    <div class="spline-box">
+        <iframe src="https://my.spline.design/genkubgreetingrobotcopy-BqFLHkDhOLV3K3NHDoOuXnFW/"></iframe>
+    </div>
+
+</div>
+
+<script>
+// tab switching
+const loginTab = document.getElementById("loginTab");
+const signupTab = document.getElementById("signupTab");
+const loginSection = document.getElementById("loginSection");
+const signupSection = document.getElementById("signupSection");
+
+loginTab.onclick = () => {
+    loginTab.classList.add("active");
+    signupTab.classList.remove("active");
+    loginSection.classList.remove("hidden");
+    signupSection.classList.add("hidden");
+};
+
+signupTab.onclick = () => {
+    signupTab.classList.add("active");
+    loginTab.classList.remove("active");
+    signupSection.classList.remove("hidden");
+    loginSection.classList.add("hidden");
+};
+</script>
+
+{% endblock %}

@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+{% block title %}Organizer Verification{% endblock %}
+
+{% block content %}
+
+<div class="verify-container">
+
+    <h2 class="page-title">Organizer Verification</h2>
+
+    <!-- ================= PENDING ORGANIZERS ================= -->
+    <h3 class="section-pending">Pending Organizers</h3>
+
+    <table class="verify-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>College</th>
+                <th>Department</th>
+                <th>Club</th>
+                <th>Proof</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% if pending %}
+            {% for org in pending %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ org.full_name }}</td>
+                <td>{{ org.email }}</td>
+                <td>{{ org.college_name }}</td>
+                <td>{{ org.department }}</td>
+                <td>{{ org.club_name }}</td>
+
+                <td>
+                    {% if org.proof_file %}
+                    <a class="btn-info neon-btn" target="_blank"
+                       href="{{ url_for('static', filename='proofs/' ~ org.proof_file) }}">
+                       View
+                    </a>
+                    {% else %}
+                    No file
+                    {% endif %}
+                </td>
+
+                <td class="action-buttons">
+                    <a href="{{ url_for('approve_organizer', id=org.id) }}" class="btn-success neon-btn">Approve</a>
+                    <a href="{{ url_for('reject_organizer', id=org.id) }}" class="btn-danger neon-btn">Reject</a>
+                </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr><td colspan="8" class="no-data">No pending organizers</td></tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+
+    <!-- ================= APPROVED ORGANIZERS ================= -->
+    <h3 class="section-approved">Approved Organizers</h3>
+
+    <table class="verify-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>College</th>
+                <th>Department</th>
+                <th>Club</th>
+                <th>Proof</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% if approved %}
+            {% for org in approved %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ org.full_name }}</td>
+                <td>{{ org.email }}</td>
+                <td>{{ org.college_name }}</td>
+                <td>{{ org.department }}</td>
+                <td>{{ org.club_name }}</td>
+
+                <td>
+                    {% if org.proof_file %}
+                    <a class="btn-info neon-btn" target="_blank"
+                       href="{{ url_for('static', filename='proofs/' ~ org.proof_file) }}">
+                       View
+                    </a>
+                    {% else %}
+                    No file
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr><td colspan="7" class="no-data">No approved organizers</td></tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+</div>
+
+
+
+<style>
+
+/* PAGE CONTAINER */
+.verify-container {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+/* TITLES */
+.page-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent-teal);
+    margin-bottom: 15px;
+    text-shadow: 0 0 10px rgba(57,255,218,0.4);
+}
+
+.section-pending {
+    color: #ff6b6b;
+    margin-top: 25px;
+}
+
+.section-approved {
+    color: #39ffda;
+    margin-top: 40px;
+}
+
+/* TABLE WRAPPER */
+.verify-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 15px;
+
+    background: linear-gradient(135deg, #1b1724, #0f1720);
+    border-radius: 14px;
+    overflow: hidden;
+
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 0 18px rgba(57,255,218,0.15);
+}
+
+/* TABLE HEAD */
+.verify-table thead th {
+    padding: 12px 10px;
+    background: rgba(255,255,255,0.05);
+    color: var(--accent-teal);
+    font-weight: 700;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    text-align: left;
+}
+
+/* TABLE ROWS */
+.verify-table tbody td {
+    padding: 12px 10px;
+    color: #d8e2e8;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+/* HOVER EFFECT */
+.verify-table tbody tr:hover {
+    background: rgba(57,255,218,0.08);
+    transition: 0.25s;
+}
+
+/* NO DATA */
+.no-data {
+    text-align: center;
+    padding: 15px;
+    color: #8899a6;
+}
+
+/* ACTION BUTTONS COLUMN */
+.action-buttons a {
+    margin-right: 6px;
+}
+
+/* NEON BUTTONS */
+.neon-btn {
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: white !important;
+    transition: 0.25s;
+}
+
+.neon-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* Colored variations */
+.btn-info { background: #3498db; }
+.btn-success { background: #2ecc71; }
+.btn-danger { background: #e74c3c; }
+
+.btn-info:hover { box-shadow: 0 0 10px #3498db; }
+.btn-success:hover { box-shadow: 0 0 10px #2ecc71; }
+.btn-danger:hover { box-shadow: 0 0 10px #e74c3c; }
+
+</style>
+
+{% endblock %}

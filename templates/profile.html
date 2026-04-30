@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+{% block title %}Profile | Event Aggregator{% endblock %}
+
+{% block content %}
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* ===== Profile Container ===== */
+.profile-container {
+    max-width: 1000px;
+    margin: 40px auto;
+}
+
+/* ===== Profile Card ===== */
+.profile-card {
+    display: flex;
+    gap: 30px;
+    padding: 35px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #1b1724, #0f1720);
+    border: 1px solid rgba(255,255,255,0.05);
+    box-shadow: 0 0 25px rgba(57,255,218,0.12);
+}
+
+/* ===== Left Profile Section ===== */
+.profile-left {
+    width: 260px;
+    text-align: center;
+}
+
+.profile-left img {
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--accent-purple);
+    box-shadow: 0 0 12px rgba(138,91,255,0.45);
+    margin-bottom: 15px;
+}
+
+.profile-left h3 {
+    margin-top: 10px;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.profile-left .role {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+.social-links i {
+    font-size: 20px;
+    margin: 8px;
+    color: var(--accent-teal);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.social-links i:hover {
+    color: var(--accent-purple);
+    transform: scale(1.1);
+}
+
+/* ===== Right Profile Section ===== */
+.profile-right {
+    flex: 1;
+}
+
+.profile-right h4 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--accent-teal);
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+/* ===== Info Box ===== */
+.info-box {
+    margin-top: 10px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px dashed rgba(255,255,255,0.08);
+}
+
+.info-label {
+    font-weight: 700;
+    color: var(--accent-purple);
+}
+
+.info-value {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+/* ===== Verified Badge ===== */
+.text-success {
+    color: #39ffda !important;
+    font-weight: 700;
+}
+
+.text-danger {
+    color: #ff6b6b !important;
+    font-weight: 700;
+}
+
+/* ===== Edit Button ===== */
+.edit-btn {
+    text-align: right;
+    margin-top: 25px;
+}
+
+.edit-btn .btn-primary {
+    background: var(--gradient-primary);
+    color: #04111a;
+    padding: 10px 22px;
+    font-weight: 700;
+    border-radius: 12px;
+    transition: 0.25s;
+}
+
+.edit-btn .btn-primary:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.05);
+}
+
+/* ===== Responsive (Mobile) ===== */
+@media (max-width: 850px) {
+    .profile-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 25px;
+    }
+
+    .profile-left {
+        width: 100%;
+    }
+
+    .info-row {
+        justify-content: center;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .edit-btn {
+        text-align: center;
+    }
+}
+</style>
+
+
+<div class="profile-container">
+    <div class="profile-card">
+
+        <!-- LEFT SIDE -->
+        <div class="profile-left">
+            <img src="{{ url_for('static', filename='avatars/' ~ (user.avatar or 'avatar1.png')) }}" 
+     onerror="this.src='/static/avatars/avatar1.png';">
+
+
+
+            <h3 >{{ user.full_name }}</h3>
+            
+            <p class="role">{{ user.role | title }}</p>
+
+            <div class="social-links">
+                <i class="fab fa-instagram"></i>
+                <i class="fab fa-facebook"></i>
+                <i class="fab fa-twitter"></i>
+            </div>
+
+            {% if user.role == 'organizer' %}
+            <a class="btn btn-info mt-2">Organizer ID: {{ user.id }}</a>
+            {% endif %}
+        </div>
+
+        <!-- RIGHT SIDE -->
+        <div class="profile-right">
+            <h4>Profile Information</h4>
+
+            <div class="info-box">
+
+                <div class="info-row">
+                    <div class="info-label">Full Name</div>
+                    <div class="info-value">{{ user.full_name }}</div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-label">Email</div>
+                    <div class="info-value">{{ user.email }}</div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-label">College</div>
+                    <div class="info-value">{{ user.college_name }}</div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-label">Department</div>
+                    <div class="info-value">{{ user.department }}</div>
+                </div>
+
+                {% if user.role == 'organizer' %}
+                <div class="info-row">
+                    <div class="info-label">Club</div>
+                    <div class="info-value">{{ user.club_name }}</div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-label">Verified</div>
+                    <div class="info-value">
+                        {% if user.verified %}
+                            <span class="text-success">✔ Verified Organizer</span>
+                        {% else %}
+                            <span class="text-danger">Pending</span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+
+            <div class="edit-btn">
+                <a href="{{ url_for('edit_profile') }}" class="btn btn-primary">Edit Profile</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

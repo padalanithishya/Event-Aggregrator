@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block title %}Event Registration{% endblock %}
+{% block content %}
+
+<div class="reg-container">
+    <h2 class="reg-title">Event Registration</h2>
+    <p class="reg-desc">Fill your details to complete registration.</p>
+
+    <form method="POST" class="reg-form">
+
+        <label>Full Name</label>
+        <input type="text" name="full_name" class="input" required>
+
+        <label>Email</label>
+        <input type="text" name="email" class="input" required>
+
+        <label>Department</label>
+        <input type="text" name="department" class="input" required>
+
+        <label>Year</label>
+        <input type="text" name="year" class="input" required>
+
+        <label>Phone Number</label>
+        <input type="text" name="phone" class="input" required>
+
+        <button type="submit" class="btn-primary reg-btn">Submit Registration</button>
+    </form>
+</div>
+
+<style>
+
+/* MAIN CARD */
+.reg-container {
+    max-width: 480px;
+    margin: 50px auto;
+    padding: 35px;
+    border-radius: 20px;
+
+    background: linear-gradient(135deg, #1b1724, #0f1720);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 0 20px rgba(57,255,218,0.15);
+    backdrop-filter: blur(6px);
+
+    text-align: center;
+}
+
+/* TITLE */
+.reg-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent-teal);
+    margin-bottom: 5px;
+    text-shadow: 0 0 8px rgba(57,255,218,0.4);
+}
+
+.reg-desc {
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+}
+
+/* FORM LABELS */
+.reg-form label {
+    display: block;
+    text-align: left;
+    color: var(--accent-purple);
+    font-weight: 700;
+    margin-top: 15px;
+}
+
+/* INPUT FIELDS */
+.input {
+    width: 100%;
+    padding: 12px 14px;
+    margin-top: 6px;
+    border-radius: 12px;
+
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--text-primary);
+
+    transition: 0.25s;
+}
+
+.input:focus {
+    border-color: var(--accent-purple);
+    box-shadow: 0 0 12px rgba(138,91,255,0.35);
+}
+
+/* SUBMIT BUTTON */
+.reg-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 25px;
+    border-radius: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+
+    background: var(--gradient-primary);
+    color: #04111a;
+    border: none;
+
+    box-shadow: var(--glow);
+    transition: 0.25s;
+}
+
+.reg-btn:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.12);
+}
+
+</style>
+
+{% endblock %}

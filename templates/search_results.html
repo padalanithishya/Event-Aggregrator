@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+
+{% block title %}Search Results | Event Aggregator{% endblock %}
+
+{% block content %}
+<div class="container search-results-container">
+
+  <!-- TOP SEARCH BAR (search again on same page) -->
+  <div class="search-top">
+    <form action="{{ url_for('search_events') }}" method="GET" class="inline-search">
+      <input type="text" name="q" value="{{ query }}" placeholder="Search events by title, venue, college..." required>
+      <button type="submit" class="btn-search">Search</button>
+    </form>
+    <div class="results-meta">
+      <h2>Search Results for "<span class="q-text">{{ query }}</span>"</h2>
+      <p class="muted">Total Results: {{ events|length }}</p>
+    </div>
+  </div>
+
+  <!-- GRID / LIST -->
+  <div class="results-list">
+    {% if events|length %}
+      {% for event in events %}
+      <div class="result-card">
+
+        <!-- content left -->
+        <div class="card-body">
+          <h3 class="event-title">{{ event.title }}</h3>
+          <p class="meta"><strong>{{ event.college_name }}</strong></p>
+
+          <ul class="meta-list no-dots">
+            <li>📅 {{ event.date }}</li>
+            {% if event.venue %}<li>📍 {{ event.venue }}</li>{% endif %}
+            {% if event.fee is not none %}<li>💸 ₹{{ event.fee }}</li>{% endif %}
+          </ul>
+
+          <div class="card-actions">
+            <a href="{{ url_for('event_detail', event_id=event.id if event.id is defined else event['id']) }}" class="btn btn-primary">View Details</a>
+          </div>
+        </div>
+
+        <!-- image right -->
+        <div class="card-image">
+          <img src="{{ event.image_url if event.image_url is defined else (event.image if event.image is defined else url_for('static', filename='images/default_event.jpg')) }}" alt="{{ event.title }}">
+        </div>
+      </div>
+      {% endfor %}
+    {% else %}
+      <p class="no-results">No events found.</p>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+/* Container */
+.search-results-container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 18px 60px;
+  color: var(--text-primary, #e6eef0);
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Top search area */
+.search-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+
+.inline-search {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  max-width: 640px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.04);
+  padding: 6px;
+  border-radius: 12px;
+}
+
+.inline-search input[type="text"] {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 12px 14px;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.inline-search input::placeholder { color: rgba(230,238,240,0.45); }
+
+.btn-search {
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: var(--gradient-primary);
+  color: #04111a;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* header meta */
+.results-meta h2 {
+  margin: 0 0 6px 0;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--accent-teal);
+}
+.results-meta .muted {
+  margin: 0;
+  color: var(--text-secondary, #9aa6b2);
+}
+
+/* Results list */
+.results-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 8px;
+}
+
+/* Single result card - content left, image right */
+.result-card {
+  display: flex;
+  gap: 18px;
+  align-items: stretch;
+  padding: 18px;
+  border-radius: 14px;
+  background: linear-gradient(135deg,#1b1724,#0f1720);
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: 0 0 18px rgba(57,255,218,0.08);
+  overflow: hidden;
+}
+
+/* card body */
+.card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.event-title {
+  margin: 0 0 6px 0;
+  color: var(--accent-teal);
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.meta {
+  color: #b6c4d1;
+  margin: 0 0 8px 0;
+  font-size: 0.95rem;
+}
+
+/* metadata list (no dots) */
+.no-dots { list-style: none; padding-left: 0; margin: 0 0 12px 0; color: #b6c4d1; }
+.no-dots li { margin-bottom: 6px; font-size: 0.95rem; }
+
+/* actions */
+.card-actions { margin-top: auto; }
+.card-actions .btn-primary {
+  padding: 10px 18px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(102,126,234,0.12);
+}
+
+/* card image (right) */
+.card-image {
+  width: 220px;
+  flex: 0 0 220px;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.02);
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* no results */
+.no-results {
+  margin-top: 12px;
+  color: var(--text-secondary, #9aa6b2);
+  text-align: center;
+}
+
+/* Responsive: stack image under content on small screens */
+@media (max-width: 900px) {
+  .result-card {
+    flex-direction: column;
+  }
+  .card-image {
+    width: 100%;
+    flex-basis: auto;
+    height: 220px;
+  }
+}
+
+/* small polish */
+.q-text { color: var(--accent-teal); }
+</style>
+{% endblock %}

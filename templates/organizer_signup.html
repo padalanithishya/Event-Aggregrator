@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% block title %}Organizer Signup | EventAggregator{% endblock %}
+
+{% block content %}
+
+<div class="signup-wrapper">
+
+    <div class="signup-card">
+
+        <div class="signup-header">
+            <h2 class="signup-title">Organizer Signup</h2>
+            <p class="signup-desc">Register to host and manage events across campuses.</p>
+        </div>
+
+        <form method="POST" enctype="multipart/form-data" class="signup-form">
+            {{ form.hidden_tag() }}
+
+            <label class="signup-label">Full Name</label>
+            {{ form.full_name(class="signup-input", placeholder="Enter your full name") }}
+
+            <label class="signup-label">Email</label>
+            {{ form.email(class="signup-input", placeholder="College email address") }}
+
+            <label class="signup-label">Password</label>
+            {{ form.password(class="signup-input", placeholder="Choose a password") }}
+
+            <label class="signup-label">College Name</label>
+            {{ form.college_name(class="signup-input", placeholder="Ex: SNIST, JNTU...") }}
+
+            <label class="signup-label">Department</label>
+            {{ form.department(class="signup-input", placeholder="Ex: IT, ECE, CSE...") }}
+
+            <label class="signup-label">Club Name</label>
+            {{ form.club_name(class="signup-input", placeholder="Ex: Coding Club, E-Cell...") }}
+
+            <label class="signup-label">Upload Proof (ID / Club Letter)</label>
+            {{ form.proof(class="signup-input-file") }}
+
+            <button type="submit" class="signup-btn">Register</button>
+        </form>
+
+        <p class="signup-footer">
+            Already have an account?
+            <a href="{{ url_for('login_organizer') }}">Login</a>
+        </p>
+
+    </div>
+</div>
+
+
+<style>
+
+/* PAGE WRAPPER */
+.signup-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 50px 0;
+}
+
+/* MAIN CARD */
+.signup-card {
+    width: 55%;
+    padding: 40px 45px;
+    border-radius: 20px;
+
+    background: linear-gradient(135deg, #1b1724, #0f1720);
+    border: 1px solid rgba(255,255,255,0.08);
+
+    box-shadow: 0 0 22px rgba(57,255,218,0.18);
+}
+
+/* HEADER */
+.signup-header {
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.signup-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent-teal);
+    text-shadow: 0 0 10px rgba(57,255,218,0.4);
+}
+
+.signup-desc {
+    margin-top: 5px;
+    color: var(--text-secondary);
+}
+
+/* LABELS */
+.signup-label {
+    color: var(--accent-purple);
+    font-weight: 700;
+    margin-top: 12px;
+    display: block;
+}
+
+/* INPUTS */
+.signup-input,
+.signup-input-file {
+    width: 100%;
+    padding: 12px 16px;
+    margin-top: 6px;
+
+    border-radius: 12px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+
+    color: var(--text-primary);
+    transition: 0.25s;
+}
+
+.signup-input::placeholder {
+    color: rgba(255,255,255,0.4);
+}
+
+.signup-input:focus {
+    border-color: var(--accent-purple);
+    box-shadow: 0 0 12px rgba(138,91,255,0.35);
+    outline: none;
+}
+
+/* BUTTON */
+.signup-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 22px;
+
+    background: var(--gradient-primary);
+    color: #04111a;
+
+    border: none;
+    font-weight: 800;
+    border-radius: 12px;
+    cursor: pointer;
+
+    transition: 0.3s;
+    box-shadow: var(--glow);
+}
+
+.signup-btn:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.1);
+}
+
+/* FOOTER LINK */
+.signup-footer {
+    text-align: center;
+    margin-top: 18px;
+    color: var(--text-secondary);
+}
+
+.signup-footer a {
+    color: var(--accent-teal);
+    font-weight: 700;
+}
+
+@media (max-width: 850px) {
+    .signup-card {
+        width: 90%;
+        padding: 25px;
+    }
+}
+
+</style>
+
+{% endblock %}

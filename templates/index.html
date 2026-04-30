@@ -1,0 +1,421 @@
+{% extends "base.html" %}
+{% block title %}Discover Events | Event Aggregator{% endblock %}
+
+{% block content %}
+<!-- HERO + SEARCH TOP -->
+<section class="hero-section">
+  <div class="hero-inner container">
+    <div class="hero-left">
+      <div class="kicker">Discover, Join &amp; Enjoy</div>
+      <h1 class="hero-title">Discover <span class="accent">Events</span></h1>
+      <p class="hero-desc">
+        Explore hackathons, workshops, fests, guest lectures, competitions and more happening in your campus and nearby colleges.
+      </p>
+
+     <form action="{{ url_for('search_events') }}" method="GET" class="hero-search">
+
+    <input type="text" name="q" placeholder="Search events by title, venue, college...🔍✨" required>
+
+    <!-- CATEGORY FILTER -->
+    
+    <button type="submit">Search</button>
+</form>
+
+
+      <div class="hero-cta">
+      
+        
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <!-- Replace the iframe URL with your Spline public scene link or use spline-viewer as needed -->
+      <!-- Example Spline iframe placeholder: -->
+      <div class="spline-wrap" aria-hidden="true">
+       <script type="module" src="https://unpkg.com/@splinetool/viewer@1.0.0/build/spline-viewer.js"></script>
+
+<spline-viewer id="splineViewer" 
+  url='https://prod.spline.design/yWjuSeXdPr7dd2Xy/scene.splinecode'>
+</spline-viewer>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTS GRID (kept below as in your original file) -->
+
+
+  <div class="row mt-4">
+    {% for event in events %}
+    <div class="col-md-4 mb-4 ">
+      <div class="card  border-0 rounded-4 h-100 event-card">
+        {% if event.image %}
+          <img src="{{ event.image_url or url_for('static', filename='images/default_event.jpg') }}" class="card-img-top rounded-top-4 event-banner" alt="{{ event.title }}">
+        {% else %}
+          <img src="{{ event.image_url or url_for('static', filename='images/default_event.jpg') }}" class="card-img-top rounded-top-4 event-banner" alt="Default Image">
+        {% endif %}
+        <div class="card-body">
+          <h5 class="event-title ">{{ event.title }}</h5>
+          <p class="card-text small  mb-2">{{ event.college_name }}</p>
+          <p class="card-text"><i class="bi bi-calendar-event" ></i> {{ event.date }} | <i class="bi bi-geo-alt"></i> {{ event.venue }}</p>
+          <a href="{{ url_for('event_detail', event_id=event.id) }}" class="btn btn-primary rounded-pill px-3 mt-2">View Details</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<script>
+(function () {
+  const viewer = document.getElementById("splineViewer");
+  if (!viewer) return;
+
+  let targetX = 0, targetY = 0, curX = 0, curY = 0;
+
+  document.addEventListener("mousemove", (e) => {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    targetX = (e.clientX / w) * 2 - 1;
+    targetY = (e.clientY / h) * 2 - 1;
+  });
+
+  viewer.addEventListener("load", () => {
+    function animate() {
+      curX += (targetX - curX) * 0.15;
+      curY += (targetY - curY) * 0.15;
+
+      try {
+        if (viewer.scene && viewer.scene.rotation) {
+          viewer.scene.rotation.y = curX * 0.6;
+          viewer.scene.rotation.x = -curY * 0.6;
+        }
+      } catch (e) {}
+
+      requestAnimationFrame(animate);
+    }
+    animate();
+  });
+})();
+</script>
+
+<!-- STYLES (top/hero focused) -->
+<style>
+  /* --- variables (fallbacks) --- */
+  
+  .search-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    
+}
+
+.search-category {
+    background: linear-gradient(90deg, #3f353f, #345e63);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 10px 14px;
+    border-radius: 12px;
+    color: #e6eef0;
+    font-weight: 600;
+    margin-right: 8px;
+    box-shadow: 0 0 8px rgba(57,255,218,0.15);
+    transition: 0.2s ease;
+}
+
+.search-category:hover {
+    box-shadow: 0 0 12px rgba(57,255,218,0.3);
+    transform: scale(1.03);
+}
+
+.search-category option {
+    background: #0d1117;
+    color: #e6eef0;
+    padding: 10px;
+}
+
+
+
+.search-box {
+    display: flex;
+    width: 60%;
+    background-color: #0a0a0a;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 8px 0 0 8px;
+    border: 1px solid #888;
+    outline: none;
+    color:#e5eaeb;
+    background-color: #0a0a0a;
+}
+
+.search-box button {
+    padding: 12px 20px;
+    border-radius: 0 8px 8px 0;
+    border: none;
+   background: var(--gradient-primary);
+    color: linear-gradient(90deg, #3f353f, #345e63);
+    cursor: pointer;
+}
+
+.search-box button:hover {
+    background-color: #0056b3;
+}
+
+ .events-section {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(1000px, 1fr));
+            gap: 2rem;
+        }
+        
+   
+
+        .event-card {
+            background: var(--gradient-card);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            cursor: pointer;
+            position: relative;
+             border-bottom: 2px solid #fff;
+   box-shadow: 0 0 10px #0ff;
+   color: white;
+            
+            
+        }
+
+        .event-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 10px rgb(17, 0, 255);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .event-banner {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event-banner::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .event-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--success);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-full);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .event-badge.paid {
+            background: var(--warning);
+        }
+
+        .event-content {
+            padding: 1.5rem;
+        }
+
+        .event-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #e8d9ff;
+        }
+
+        .event-description {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .event-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .event-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .seats-left {
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+
+  :root{
+    --bg:#0b0e12;
+    --panel:#0f1720;
+    --muted:#9aa6b2;
+    --accent:#13bae0;
+    --neon:#39ffda;
+    --gradient-primary: linear-gradient(90deg,#6a5cff,#7be2ff);
+    --card-glow: rgba(19,186,224,0.12);
+    --radius-lg: 14px;
+  }
+
+  .hero-section{
+    background: linear-gradient(180deg, rgba(12,14,18,0.95) 0%, rgba(5,8,12,0.95) 100%);
+    padding: 3.5rem 0 2rem;
+    color: #e6eef0;
+  }
+
+  .hero-inner{
+    display:flex;
+    align-items:center;
+    gap:2rem;
+    padding: 1.5rem;
+  }
+
+  /* left column (text + search) */
+  .hero-left{
+    flex: 1 1 520px;
+    max-width: 720px;
+  }
+
+  .kicker{
+    display:inline-block;
+    color: var(--accent);
+    font-weight:700;
+    letter-spacing:0.6px;
+    margin-bottom: 0.6rem;
+    font-size: 0.95rem;
+  }
+
+  .hero-title{
+    font-size: clamp(2.1rem, 4.5vw, 4.2rem);
+    line-height: 1.02;
+    margin: 0 0 0.6rem;
+    font-weight:800;
+    color: #ffffff;
+  }
+
+  .hero-title .accent{
+    color: var(--accent);
+    -webkit-text-stroke: 0.2px rgba(0,0,0,0.25);
+  }
+
+  .hero-desc{
+    color: var(--muted);
+    font-size: 1.05rem;
+    margin-bottom: 1.6rem;
+    max-width: 56ch;
+  }
+
+  /* search bar */
+  .hero-search{
+    display:flex;
+    gap:0;
+    width:100%;
+    max-width:720px;
+    background: rgba(255,255,255,0.02);
+    border-radius: 12px;
+    padding: 6px;
+    border: 1px solid rgba(255,255,255,0.04);
+    box-shadow: 0 6px 20px rgba(2,6,12,0.6), 0 0 0 4px rgba(19,186,224,0.02) inset;
+    margin-bottom:1.25rem;
+  }
+
+  .hero-search input{
+    flex:1;
+    border:none;
+    outline:none;
+    padding: 14px 18px;
+    background: transparent;
+    color: #e6eef0;
+    font-size:1rem;
+  }
+
+  .hero-search input::placeholder{
+    color: rgba(230,238,240,0.45);
+  }
+
+  .hero-search button{
+    border: none;
+    padding: 0 20px;
+    min-width:110px;
+    border-radius: 10px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+    color:#04111a;
+    background: linear-gradient(90deg,#6a5cff,#7be2ff);
+    cursor:pointer;
+    transition: transform .12s ease, filter .12s ease;
+  }
+
+  .hero-search button:hover{ transform: translateY(-1px); filter:brightness(1.03); }
+
+  /* CTA buttons */
+  .hero-cta { margin-top: 0.9rem; display:flex; gap:0.75rem; align-items:center; flex-wrap:wrap; }
+  .btn { padding: .6rem 1rem; border-radius: 10px; text-decoration:none; display:inline-block; font-weight:600; }
+  .btn.primary { background: linear-gradient(90deg,#3f6af7,#8a5bff); color: #fff; box-shadow: 0 8px 28px rgba(63,106,247,0.12); }
+  .btn.ghost { background:transparent; border: 1px solid rgba(255,255,255,0.06); color: #d8e9ef; }
+
+  /* right column Spline */
+  .hero-right{ flex: 0 0 520px; display:flex; align-items:center; justify-content:center; }
+  .spline-wrap{ width: 100%; max-width:520px; height:420px; background: linear-gradient(180deg, rgba(12,14,18,0.95) 0%, rgba(5,8,12,0.95) 100%); border-radius:18px; overflow:hidden;  
+   
+     display:flex; align-items:center; justify-content:center; }
+  .spline-wrap iframe{ width:100%; height:100%; border:0; display:block; }
+
+  /* responsive */
+  @media (max-width: 990px){
+    .hero-inner{ flex-direction:column-reverse; gap:1.25rem; }
+    .hero-right{ width:100%; max-width:680px; }
+    .hero-left{ width:100%; text-align:center; }
+    .hero-cta{ justify-content:center; }
+  }
+
+  @media (max-width:560px){
+    .hero-search{ width:100%; padding:4px; border-radius:10px; }
+    .spline-wrap{ height:300px; }
+  }
+</style>
+{% endblock %}
